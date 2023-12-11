@@ -1,4 +1,3 @@
-#include <string>
 #include <aoc.h>
 
 namespace event23::day01 {
