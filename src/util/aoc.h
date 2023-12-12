@@ -6,10 +6,10 @@
 namespace aoc {
 
 struct Answer {
-    unsigned short event;
-    unsigned short day;
-    std::string part1;
-    std::string part2;
+  unsigned short event;
+  unsigned short day;
+  std::string part1;
+  std::string part2;
 };
 
 }
