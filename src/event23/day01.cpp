@@ -40,7 +40,7 @@ aoc::Answer solve() {
   std::ifstream input("inputs/event23/day01/input.txt");
 
   if (!input) {
-    return aoc::Answer { 23, 01, "", "" };
+    return aoc::Answer { 2023, 01, "", "" };
   }
 
   for (std::string line; std::getline(input, line);) {
@@ -63,7 +63,12 @@ aoc::Answer solve() {
     part2 += calculate_calibration(sline);
   }
 
-  return aoc::Answer { 23, 01, std::to_string(part1), std::to_string(part2) };
+  return aoc::Answer {
+    2023,
+    01,
+    std::to_string(part1),
+    std::to_string(part2),
+  };
 }
 
 }

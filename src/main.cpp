@@ -4,6 +4,7 @@
 #include <vector>
 #include <aoc.h>
 #include "event23/day01.h"
+#include "event23/day02.h"
 
 void add_divider(std::stringstream &stream) {
   stream << std::format("+{0:->7}+{0:->5}+{0:->12}+{0:->12}+\n", '-');
@@ -18,6 +19,7 @@ void add_header(std::stringstream &stream) {
 int main(int argc, char *argv[]) {
   std::vector<aoc::Answer> answers {
     event23::day01::solve(),
+    event23::day02::solve(),
   };
 
   std::stringstream output;
