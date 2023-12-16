@@ -27,5 +27,6 @@ add_executable(
     src/main.cpp
     src/event23/day01.cpp
     src/event23/day02.cpp
+    src/event23/day03.cpp
     src/util/aoc.h
 )
