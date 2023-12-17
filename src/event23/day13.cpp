@@ -2,16 +2,16 @@
 #include <string>
 #include <aoc.h>
 
-namespace event23::day03 {
+namespace event23::day13 {
 
 constexpr int EVENT = 2023;
-constexpr int DAY = 3;
+constexpr int DAY = 13;
 
 aoc::Answer solve() {
   int part1 = 0;
   int part2 = 0;
 
-  std::ifstream input("inputs/event23/day03/example.txt");
+  std::ifstream input("inputs/event23/day13/example.txt");
 
   if (!input) {
     return aoc::Answer { EVENT, DAY, "", "" };

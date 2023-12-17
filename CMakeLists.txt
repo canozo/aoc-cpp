@@ -28,5 +28,27 @@ add_executable(
     src/event23/day01.cpp
     src/event23/day02.cpp
     src/event23/day03.cpp
+    src/event23/day04.cpp
+    src/event23/day05.cpp
+    src/event23/day06.cpp
+    src/event23/day07.cpp
+    src/event23/day08.cpp
+    src/event23/day09.cpp
+    src/event23/day10.cpp
+    src/event23/day11.cpp
+    src/event23/day12.cpp
+    src/event23/day13.cpp
+    src/event23/day14.cpp
+    src/event23/day15.cpp
+    src/event23/day16.cpp
+    src/event23/day17.cpp
+    src/event23/day18.cpp
+    src/event23/day19.cpp
+    src/event23/day20.cpp
+    src/event23/day21.cpp
+    src/event23/day22.cpp
+    src/event23/day23.cpp
+    src/event23/day24.cpp
+    src/event23/day25.cpp
     src/util/aoc.h
 )

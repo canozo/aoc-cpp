@@ -7,6 +7,9 @@
 
 namespace event23::day01 {
 
+constexpr int EVENT = 2023;
+constexpr int DAY = 1;
+
 const std::vector<std::string> DIGITS {
   "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
 };
@@ -40,7 +43,7 @@ aoc::Answer solve() {
   std::ifstream input("inputs/event23/day01/input.txt");
 
   if (!input) {
-    return aoc::Answer { 2023, 01, "", "" };
+    return aoc::Answer { EVENT, DAY, "", "" };
   }
 
   for (std::string line; std::getline(input, line);) {
@@ -64,8 +67,8 @@ aoc::Answer solve() {
   }
 
   return aoc::Answer {
-    2023,
-    01,
+    EVENT,
+    DAY,
     std::to_string(part1),
     std::to_string(part2),
   };

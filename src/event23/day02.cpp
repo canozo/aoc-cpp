@@ -6,6 +6,9 @@
 
 namespace event23::day02 {
 
+constexpr int EVENT = 2023;
+constexpr int DAY = 2;
+
 constexpr int ID_BEGIN = 5;
 
 constexpr int R_P1_MAX = 12;
@@ -19,7 +22,7 @@ aoc::Answer solve() {
   std::ifstream input("inputs/event23/day02/input.txt");
 
   if (!input) {
-    return aoc::Answer { 2023, 02, "", "" };
+    return aoc::Answer { EVENT, DAY, "", "" };
   }
 
   for (std::string line; std::getline(input, line);) {
@@ -88,8 +91,8 @@ aoc::Answer solve() {
   }
 
   return aoc::Answer {
-    2023,
-    02,
+    EVENT,
+    DAY,
     std::to_string(part1),
     std::to_string(part2),
   };
