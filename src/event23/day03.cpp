@@ -45,7 +45,7 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
   std::vector<std::string> schematic;
 
   for (std::string line; std::getline(input, line);) {
-    schematic.push_back(line);
+    schematic.push_back(line + '.');
   }
 
   std::vector<std::pair<int, int>> symbols;
@@ -86,13 +86,6 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
       if (curr != '.') {
         symbols.push_back(std::make_pair(lidx, cidx));
       }
-    }
-
-    if (num_begin != npos) {
-      int num = std::stoi(line.substr(num_begin, line.length() - num_begin));
-
-      part_number->number = num;
-      part_number->seen = false;
     }
   }
 

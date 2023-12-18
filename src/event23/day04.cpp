@@ -2,6 +2,7 @@
 #include <cctype>
 #include <cmath>
 #include <fstream>
+#include <map>
 #include <string>
 #include <vector>
 #include <aoc.h>
@@ -23,13 +24,18 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
     return aoc::Answer { EVENT, DAY, "", "" };
   }
 
+  std::map<int, int> copies;
+
   for (std::string line; std::getline(input, line);) {
+    line += ' ';
+
     int card_num = 0;
     int winners = 0;
     int pos = 0;
-
     bool crossed = false;
     std::vector<int> winning;
+
+    int matches = 0;
 
     for (int idx = id_begin; idx < line.length(); idx++) {
       const char curr = line[idx];
@@ -38,6 +44,17 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
       switch (curr) {
       case ':':
         card_num = std::stoi(line.substr(id_begin, idx - id_begin));
+
+        {
+          const auto it = copies.find(card_num);
+
+          if (it == copies.end()) {
+            copies.insert({ card_num, ++matches });
+          } else {
+            matches = ++it->second;
+          }
+        }
+
         idx++;
         break;
 
@@ -75,19 +92,20 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
       }
     }
 
-    if (pos) {
-      int parsed = std::stoi(line.substr(pos, line.length() - pos));
-
-      bool found = std::find(
-          winning.begin(), winning.end(), parsed) != winning.end();
-
-      if (found) {
-        winners++;
-      }
-    }
-
     if (winners) {
       part1 += std::pow(2, winners - 1);
+    }
+
+    part2 += matches;
+
+    for (int card = card_num + 1; card <= card_num + winners; card++) {
+      const auto it = copies.find(card);
+
+      if (it == copies.end()) {
+        copies.insert({ card, matches });
+      } else {
+        it->second += matches;
+      }
     }
   }
 
