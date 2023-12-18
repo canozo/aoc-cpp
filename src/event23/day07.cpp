@@ -7,11 +7,11 @@ namespace event23::day07 {
 constexpr int EVENT = 2023;
 constexpr int DAY = 7;
 
-aoc::Answer solve() {
+aoc::Answer solve(const std::string &filename = "input.txt") {
   int part1 = 0;
   int part2 = 0;
 
-  std::ifstream input("inputs/event23/day07/example.txt");
+  std::ifstream input("inputs/event23/day07/" + filename);
 
   if (!input) {
     return aoc::Answer { EVENT, DAY, "", "" };

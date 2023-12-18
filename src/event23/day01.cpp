@@ -36,11 +36,11 @@ int calculate_calibration(std::string &line) {
   return std::stoi(line);
 }
 
-aoc::Answer solve() {
+aoc::Answer solve(const std::string &filename = "input.txt") {
   int part1 = 0;
   int part2 = 0;
 
-  std::ifstream input("inputs/event23/day01/input.txt");
+  std::ifstream input("inputs/event23/day01/" + filename);
 
   if (!input) {
     return aoc::Answer { EVENT, DAY, "", "" };

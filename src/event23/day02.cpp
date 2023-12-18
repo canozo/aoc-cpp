@@ -15,11 +15,11 @@ constexpr int R_P1_MAX = 12;
 constexpr int G_P1_MAX = 13;
 constexpr int B_P1_MAX = 14;
 
-aoc::Answer solve() {
+aoc::Answer solve(const std::string &filename = "input.txt") {
   int part1 = 0;
   int part2 = 0;
 
-  std::ifstream input("inputs/event23/day02/input.txt");
+  std::ifstream input("inputs/event23/day02/" + filename);
 
   if (!input) {
     return aoc::Answer { EVENT, DAY, "", "" };

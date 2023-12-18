@@ -1,33 +1,10 @@
 #include <iostream>
 #include <format>
 #include <sstream>
+#include <string>
 #include <vector>
 #include <aoc.h>
-#include "event23/day01.h"
-#include "event23/day02.h"
-#include "event23/day03.h"
-#include "event23/day04.h"
-#include "event23/day05.h"
-#include "event23/day06.h"
-#include "event23/day07.h"
-#include "event23/day08.h"
-#include "event23/day09.h"
-#include "event23/day10.h"
-#include "event23/day11.h"
-#include "event23/day12.h"
-#include "event23/day13.h"
-#include "event23/day14.h"
-#include "event23/day15.h"
-#include "event23/day16.h"
-#include "event23/day17.h"
-#include "event23/day18.h"
-#include "event23/day19.h"
-#include "event23/day20.h"
-#include "event23/day21.h"
-#include "event23/day22.h"
-#include "event23/day23.h"
-#include "event23/day24.h"
-#include "event23/day25.h"
+#include "event23/all.h"
 
 void add_divider(std::stringstream &stream) {
   stream << std::format("+{0:->7}+{0:->5}+{0:->12}+{0:->12}+\n", '-');
@@ -40,32 +17,38 @@ void add_header(std::stringstream &stream) {
 }
 
 int main(int argc, char *argv[]) {
+  std::string input_filename = "input.txt";
+
+  if (argc > 1) {
+    input_filename = argv[1];
+  }
+
   std::vector<aoc::Answer> answers {
-    event23::day01::solve(),
-    event23::day02::solve(),
-    event23::day03::solve(),
-    event23::day04::solve(),
-    event23::day05::solve(),
-    event23::day06::solve(),
-    event23::day07::solve(),
-    event23::day08::solve(),
-    event23::day09::solve(),
-    event23::day10::solve(),
-    event23::day11::solve(),
-    event23::day12::solve(),
-    event23::day13::solve(),
-    event23::day14::solve(),
-    event23::day15::solve(),
-    event23::day16::solve(),
-    event23::day17::solve(),
-    event23::day18::solve(),
-    event23::day19::solve(),
-    event23::day20::solve(),
-    event23::day21::solve(),
-    event23::day22::solve(),
-    event23::day23::solve(),
-    event23::day24::solve(),
-    event23::day25::solve(),
+    event23::day01::solve(input_filename),
+    event23::day02::solve(input_filename),
+    event23::day03::solve(input_filename),
+    event23::day04::solve(input_filename),
+    event23::day05::solve(input_filename),
+    event23::day06::solve(input_filename),
+    event23::day07::solve(input_filename),
+    event23::day08::solve(input_filename),
+    event23::day09::solve(input_filename),
+    event23::day10::solve(input_filename),
+    event23::day11::solve(input_filename),
+    event23::day12::solve(input_filename),
+    event23::day13::solve(input_filename),
+    event23::day14::solve(input_filename),
+    event23::day15::solve(input_filename),
+    event23::day16::solve(input_filename),
+    event23::day17::solve(input_filename),
+    event23::day18::solve(input_filename),
+    event23::day19::solve(input_filename),
+    event23::day20::solve(input_filename),
+    event23::day21::solve(input_filename),
+    event23::day22::solve(input_filename),
+    event23::day23::solve(input_filename),
+    event23::day24::solve(input_filename),
+    event23::day25::solve(input_filename),
   };
 
   std::stringstream output;
