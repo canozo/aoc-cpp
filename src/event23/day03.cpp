@@ -1,3 +1,4 @@
+#include <array>
 #include <cctype>
 #include <fstream>
 #include <map>
@@ -19,7 +20,7 @@ struct PartNumber {
   bool seen;
 };
 
-const std::vector<std::pair<int, int>> BORDERS {
+const std::array<std::pair<int, int>, 8> BORDERS {
   std::make_pair(-1, -1),
   std::make_pair(-1,  0),
   std::make_pair(-1,  1),

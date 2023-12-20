@@ -1,8 +1,8 @@
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <fstream>
 #include <string>
-#include <vector>
 #include <aoc.h>
 
 namespace event23::day01 {
@@ -10,7 +10,7 @@ namespace event23::day01 {
 constexpr int EVENT = 2023;
 constexpr int DAY = 1;
 
-const std::vector<std::string> DIGITS {
+const std::array<std::string, 9> DIGITS {
   "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
 };
 
