@@ -24,7 +24,6 @@ struct SeedGroup {
   unsigned long fr;
   unsigned long to;
   bool converted = false;
-  bool prune = false;
 };
 
 Mapping parseMapping(std::string &line) {
@@ -60,74 +59,6 @@ Mapping parseMapping(std::string &line) {
   }
 
   return mapping;
-}
-
-void aggregateSeedGroups(std::vector<SeedGroup> &seeds) {
-  // seeds must be sorted
-  std::sort(
-    seeds.begin(),
-    seeds.end(),
-    [](const SeedGroup &l, const SeedGroup &r) {
-      return l.fr < r.fr;
-    });
-
-  std::vector<SeedGroup> append;
-  unsigned long ceiling = 0;
-
-  int l = 0;
-  int r = 1;
-
-  while (l < seeds.size() && r < seeds.size()) {
-    SeedGroup &start = seeds.at(l);
-    SeedGroup &next = seeds.at(r);
-
-    if (start.converted != next.converted) {
-      l++;
-
-      if (l == r) {
-        r++;
-      }
-
-      continue;
-    }
-
-    if (ceiling && ceiling >= next.fr) {
-      next.prune = true;
-      ceiling = std::max(ceiling, next.to);
-      r++;
-      continue;
-    }
-
-    if (start.to >= next.fr) {
-      start.prune = next.prune = true;
-      ceiling = std::max(start.to, next.to);
-      r++;
-      continue;
-    }
-
-    if (ceiling) {
-      append.push_back(SeedGroup { start.fr, ceiling, start.converted });
-      ceiling = 0;
-      l = r;
-      r++;
-    } else {
-      l++;
-      r++;
-    }
-  }
-
-  if (ceiling) {
-    const SeedGroup start = seeds.at(l);
-    append.push_back(SeedGroup { start.fr, ceiling, start.converted });
-  }
-
-  seeds.erase(std::remove_if(
-    seeds.begin(),
-    seeds.end(),
-    [](const SeedGroup &sg) { return sg.prune; }),
-    seeds.end());
-
-  seeds.insert(seeds.end(), append.begin(), append.end());
 }
 
 void convertSeeds(
@@ -202,9 +133,6 @@ void convertSeedGroups(std::vector<SeedGroup> &seeds, const Mapping &line) {
 
   // append new seeds to main vector
   seeds.insert(seeds.end(), append.begin(), append.end());
-
-  // sort and aggregate groups
-  aggregateSeedGroups(seeds);
 }
 
 aoc::Answer solve(const std::string &filename = "input.txt") {
@@ -271,9 +199,6 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
       for (SeedGroup &seed : seedGroups) {
         seed.converted = false;
       }
-
-      // try to aggregate values
-      aggregateSeedGroups(seedGroups);
     } else {
       const Mapping m = parseMapping(line);
       convertSeeds(seeds, converted, m);
