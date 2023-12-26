@@ -55,19 +55,19 @@ parseInput(std::string &time, std::string &distance) {
   return races;
 }
 
-int solveRace(const int &time, const int &dist) {
-  const int ntime = time * -1;
+long long solveRace(const long long &time, const long long &dist) {
+  const long long ntime = time * -1;
 
-  int extra = 1;
-  const float sqrt = std::sqrt(std::pow(ntime, 2) - 4 * dist);
+  long long extra = 1;
+  const long double sqrt = std::sqrt(std::pow(ntime, 2) - 4 * dist);
 
-  const float flower = (ntime * -1 - sqrt) / 2;
-  const int lower = std::ceil(flower);
+  const long double flower = (ntime * -1 - sqrt) / 2;
+  const long long lower = std::ceil(flower);
 
-  const float fupper = (ntime * -1 + sqrt) / 2;
-  const int upper = std::floor(fupper);
+  const long double fupper = (ntime * -1 + sqrt) / 2;
+  const long long upper = std::floor(fupper);
 
-  if (std::trunc(flower) == flower && std::trunc(fupper) == fupper) {
+  if (std::truncl(flower) == flower && std::truncl(fupper) == fupper) {
     extra = -1;
   }
 
@@ -76,7 +76,7 @@ int solveRace(const int &time, const int &dist) {
 
 aoc::Answer solve(const std::string &filename = "input.txt") {
   int part1 = 1;
-  int part2 = 0;
+  long long part2 = 0;
 
   std::ifstream input("inputs/event23/day06/" + filename);
 
@@ -91,10 +91,18 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
 
   auto races = parseInput(time, distance);
 
+  std::string time_p2 = "";
+  std::string dist_p2 = "";
+
   for (const auto &race : races) {
     const auto [time, dist] = race;
     part1 *= solveRace(time, dist);
+
+    time_p2 += std::to_string(time);
+    dist_p2 += std::to_string(dist);
   }
+
+  part2 = solveRace(std::stoll(time_p2), std::stoll(dist_p2));
 
   return aoc::Answer {
     EVENT,
