@@ -23,13 +23,13 @@ int main(int argc, char *argv[]) {
     input_filename = argv[1];
   }
 
-  std::array<aoc::Answer, 5> answers {
+  std::array<aoc::Answer, 6> answers {
     event23::day01::solve(input_filename),
     event23::day02::solve(input_filename),
     event23::day03::solve(input_filename),
     event23::day04::solve(input_filename),
     event23::day05::solve(input_filename),
-    // event23::day06::solve(input_filename),
+    event23::day06::solve(input_filename),
     // event23::day07::solve(input_filename),
     // event23::day08::solve(input_filename),
     // event23::day09::solve(input_filename),
