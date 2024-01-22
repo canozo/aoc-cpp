@@ -22,11 +22,7 @@ constexpr unsigned int HIGH_CARD = 0;
 
 constexpr unsigned int STEP_START = 12 + 1;
 
-constexpr std::array<char, 14> cards = {
-  'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2',
-};
-
-const std::map<char, unsigned int> values = {
+const std::map<char, unsigned int> normal_vals = {
   { 'A', 12 },
   { 'K', 11 },
   { 'Q', 10 },
@@ -42,10 +38,27 @@ const std::map<char, unsigned int> values = {
   { '2',  0 },
 };
 
+const std::map<char, unsigned int> jokers_vals = {
+  { 'A', 12 },
+  { 'K', 11 },
+  { 'Q', 10 },
+  { 'T',  9 },
+  { '9',  8 },
+  { '8',  7 },
+  { '7',  6 },
+  { '6',  5 },
+  { '5',  4 },
+  { '4',  3 },
+  { '3',  2 },
+  { '2',  1 },
+  { 'J',  0 },
+};
+
 struct Hand {
   std::string cards;
   unsigned int bid;
-  unsigned int weight = 0;
+  unsigned int normal_weight = 0;
+  unsigned int jokers_weight = 0;
 };
 
 std::map<unsigned int, unsigned int> calculated = {
@@ -71,45 +84,106 @@ unsigned int step_func(const unsigned int n) {
   return result;
 }
 
-unsigned int w8_hand(std::string &hand) {
-  unsigned int result = values.at(hand.at(4));
+unsigned int w8_hand(const std::string &hand, const bool jokers = false) {
+  const auto c = hand.at(4);
+  unsigned int result = jokers ? jokers_vals.at(c) : normal_vals.at(c);
   unsigned int step = STEP_START;
 
   for (auto it = hand.rbegin() + 1; it != hand.rend(); ++it) {
-    result += values.at(*it) * step_func(step++);
+    auto card_value = jokers ? jokers_vals.at(*it) : normal_vals.at(*it);
+    result += card_value * step_func(step++);
   }
 
   return result;
 }
 
-unsigned int combo(const std::string &hand) {
+constexpr unsigned int
+hasThree(
+  const unsigned int pairs,
+  const unsigned int jokers,
+  const bool with_joker
+) {
+  if (!jokers || !with_joker) {
+    return pairs ? FULL_HOUSE : THREE_OF_A_KIND;
+  }
+
+  switch (jokers) {
+    case 3:
+      return pairs ? FIVE_OF_A_KIND : FOUR_OF_A_KIND;
+
+    case 2:
+      return FIVE_OF_A_KIND;
+
+    case 1:
+      return FOUR_OF_A_KIND;
+
+    default:
+      break;
+  }
+
+  return THREE_OF_A_KIND;
+}
+
+constexpr unsigned int
+hasTwoPairs(
+  const unsigned int pairs,
+  const unsigned int jokers,
+  const bool with_joker
+) {
+  if (!jokers || !with_joker) {
+    return TWO_PAIR;
+  }
+
+  return jokers == 2 ? FOUR_OF_A_KIND : FULL_HOUSE;
+}
+
+constexpr unsigned int
+hasPairOrNothing(
+  const unsigned int pairs,
+  const unsigned int jokers,
+  const bool with_joker
+) {
+  if (!jokers || !with_joker) {
+    return pairs ? ONE_PAIR : HIGH_CARD;
+  }
+
+  return pairs ? THREE_OF_A_KIND : ONE_PAIR;
+}
+
+constexpr unsigned int
+combo(const std::string &hand, const bool with_joker = false) {
   unsigned int pairs = 0;
+  unsigned int jokers = 0;
+
+  bool has_four = false;
   bool has_three = false;
   char seen_pair_of = '0';
 
   for (const char &c : hand) {
     auto count = std::count(hand.begin(), hand.end(), c);
 
+    if (c == 'J') {
+      jokers++;
+    }
+
     switch (count) {
       case 5:
         return FIVE_OF_A_KIND;
 
       case 4:
-        return FOUR_OF_A_KIND;
+        has_four = true;
+        break;
 
       case 3:
         has_three = true;
         break;
 
       case 2:
-        if (c == seen_pair_of) {
+        if (c == seen_pair_of || pairs == 2) {
           break;
         }
 
-        if (++pairs == 2) {
-          return TWO_PAIR;
-        }
-
+        pairs++;
         seen_pair_of = c;
         break;
 
@@ -118,11 +192,19 @@ unsigned int combo(const std::string &hand) {
     }
   }
 
-  if (has_three) {
-    return pairs ? FULL_HOUSE : THREE_OF_A_KIND;
+  if (has_four) {
+    return with_joker && jokers ? FIVE_OF_A_KIND : FOUR_OF_A_KIND;
   }
 
-  return pairs ? ONE_PAIR : HIGH_CARD;
+  if (has_three) {
+    return hasThree(pairs, jokers, with_joker);
+  }
+
+  if (pairs == 2) {
+    return hasTwoPairs(pairs, jokers, with_joker);
+  }
+
+  return hasPairOrNothing(pairs, jokers, with_joker);
 }
 
 aoc::Answer solve(const std::string &filename = "input.txt") {
@@ -143,20 +225,35 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
       (unsigned int) std::stoul(line.substr(6)),
     };
 
-    hand.weight = w8_hand(hand.cards);
-    hand.weight = combo(hand.cards) * 10'000'000 + w8_hand(hand.cards);
+    hand.normal_weight = combo(hand.cards) * 10'000'000
+      + w8_hand(hand.cards);
+
+    hand.jokers_weight = combo(hand.cards, true) * 10'000'000
+      + w8_hand(hand.cards, true);
 
     hands.push_back(hand);
   }
 
+  // part 1 sort
   std::sort(hands.begin(), hands.end(), [](auto const &l, auto const &r) {
-    return l.weight < r.weight;
+    return l.normal_weight < r.normal_weight;
   });
 
   unsigned int rank = 1;
 
   for (auto const &hand : hands) {
     part1 += hand.bid * rank++;
+  }
+
+  // part 2 sort
+  std::sort(hands.begin(), hands.end(), [](auto const &l, auto const &r) {
+    return l.jokers_weight < r.jokers_weight;
+  });
+
+  rank = 1;
+
+  for (auto const &hand : hands) {
+    part2 += hand.bid * rank++;
   }
 
   return aoc::Answer {
