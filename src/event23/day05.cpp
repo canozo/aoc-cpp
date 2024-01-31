@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
+#include <cstddef>
 #include <fstream>
 #include <iterator>
 #include <string>
@@ -33,7 +34,7 @@ Mapping parseMapping(std::string &line) {
 
   line += ' ';
 
-  for (int idx = 0; idx < line.length(); idx++) {
+  for (std::size_t idx = 0; idx < line.length(); idx++) {
     const char curr = line[idx];
 
     switch (curr) {
@@ -68,7 +69,7 @@ void convertSeeds(
 ) {
   const auto &[dest, source, range] = line;
 
-  for (int idx = 0; idx < seeds.size(); idx++) {
+  for (std::size_t idx = 0; idx < seeds.size(); idx++) {
     if (converted.at(idx)) {
       continue;
     }
@@ -155,7 +156,7 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
   int pos = 0;
 
   // parse the seeds for part 1
-  for (int idx = seeds_start; idx < first_line.length(); idx++) {
+  for (std::size_t idx = seeds_start; idx < first_line.length(); idx++) {
     const char curr = first_line[idx];
 
     switch (curr) {

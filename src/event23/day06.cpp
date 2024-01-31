@@ -1,5 +1,6 @@
 #include <cctype>
 #include <cmath>
+#include <cstddef>
 #include <fstream>
 #include <string>
 #include <utility>
@@ -17,7 +18,7 @@ std::vector<int> parseLine(std::string &line) {
 
   line += ' ';
 
-  for (int idx = 0; idx < line.length(); idx++) {
+  for (std::size_t idx = 0; idx < line.length(); idx++) {
     const char curr = line[idx];
 
     switch (curr) {
@@ -48,7 +49,7 @@ parseInput(std::string &time, std::string &distance) {
   auto times = parseLine(time);
   auto distances = parseLine(distance);
 
-  for (int idx = 0; idx < times.size(); idx++) {
+  for (std::size_t idx = 0; idx < times.size(); idx++) {
     races.push_back(std::make_pair(times.at(idx), distances.at(idx)));
   }
 

@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
+#include <cstddef>
 #include <fstream>
 #include <map>
 #include <string>
@@ -37,7 +38,7 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
 
     int matches = 0;
 
-    for (int idx = id_begin; idx < line.length(); idx++) {
+    for (std::size_t idx = id_begin; idx < line.length(); idx++) {
       const char curr = line[idx];
       int parsed;
 

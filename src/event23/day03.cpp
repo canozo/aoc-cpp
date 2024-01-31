@@ -1,5 +1,6 @@
 #include <array>
 #include <cctype>
+#include <cstddef>
 #include <fstream>
 #include <map>
 #include <memory>
@@ -52,13 +53,13 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
   std::vector<std::pair<int, int>> symbols;
   std::map<std::pair<int, int>, std::shared_ptr<PartNumber>> part_numbers;
 
-  for (int lidx = 0; lidx < schematic.size(); lidx++) {
+  for (std::size_t lidx = 0; lidx < schematic.size(); lidx++) {
     const std::string &line = schematic.at(lidx);
 
     std::shared_ptr<PartNumber> part_number;
     int num_begin = npos;
 
-    for (int cidx = 0; cidx < line.length(); cidx++) {
+    for (std::size_t cidx = 0; cidx < line.length(); cidx++) {
       const char curr = line[cidx];
       const bool is_digit = std::isdigit(curr);
 

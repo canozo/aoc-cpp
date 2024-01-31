@@ -51,7 +51,7 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
 
     part1 += calculate_calibration(line);
 
-    for (int idx = 0; idx < DIGITS.size(); idx++) {
+    for (unsigned long idx = 0; idx < DIGITS.size(); idx++) {
       const auto &digit = DIGITS.at(idx);
       auto pos = sline.find(digit);
 

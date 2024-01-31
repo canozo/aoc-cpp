@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cctype>
+#include <cstddef>
 #include <fstream>
 #include <string>
 #include <aoc.h>
@@ -32,7 +33,7 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
     r = g = b = 0;
     bool overflow = false;
 
-    for (int idx = ID_BEGIN; idx < line.length(); idx++) {
+    for (std::size_t idx = ID_BEGIN; idx < line.length(); idx++) {
       char curr = line[idx];
       int temp_r, temp_g, temp_b;
       temp_r = temp_g = temp_b = 0;

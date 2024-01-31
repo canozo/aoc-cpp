@@ -126,7 +126,6 @@ hasThree(
 
 constexpr unsigned int
 hasTwoPairs(
-  const unsigned int pairs,
   const unsigned int jokers,
   const bool with_joker
 ) {
@@ -201,7 +200,7 @@ combo(const std::string &hand, const bool with_joker = false) {
   }
 
   if (pairs == 2) {
-    return hasTwoPairs(pairs, jokers, with_joker);
+    return hasTwoPairs(jokers, with_joker);
   }
 
   return hasPairOrNothing(pairs, jokers, with_joker);
