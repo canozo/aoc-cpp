@@ -7,12 +7,12 @@
 #include "event23/all.h"
 
 void add_divider(std::stringstream &stream) {
-  stream << std::format("+{0:->7}+{0:->5}+{0:->12}+{0:->12}+\n", '-');
+  stream << std::format("+{0:->7}+{0:->5}+{0:->12}+{0:->16}+\n", '-');
 }
 
 void add_header(std::stringstream &stream) {
   add_divider(stream);
-  stream << std::format("| event | day | part 1     | part 2     |\n");
+  stream << std::format("| event | day | part 1     | part 2         |\n");
   add_divider(stream);
 }
 
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 
   for (auto answer : answers) {
     output << std::format(
-      "| {:<5} | {:<3} | {:<10} | {:<10} |\n",
+      "| {:<5} | {:<3} | {:<10} | {:<14} |\n",
       answer.event,
       answer.day,
       answer.part1,

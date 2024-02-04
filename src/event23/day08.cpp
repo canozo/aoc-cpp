@@ -1,6 +1,6 @@
-#include <cstddef>
 #include <fstream>
 #include <map>
+#include <numeric>
 #include <string>
 #include <utility>
 #include <vector>
@@ -11,22 +11,9 @@ namespace event23::day08 {
 constexpr int EVENT = 2023;
 constexpr int DAY = 8;
 
-bool keepSearching(
-  const std::vector<std::size_t> &ghosts,
-  const std::vector<std::string> &keys
-) {
-  for (const auto &ghost: ghosts) {
-    if (keys.at(ghost).at(2) != 'Z') {
-      return true;
-    }
-  }
-
-  return false;
-}
-
 aoc::Answer solve(const std::string &filename = "input.txt") {
   unsigned int part1 = 0;
-  unsigned int part2 = 0;
+  unsigned long long part2 = 0;
 
   std::ifstream input("inputs/event23/day08/" + filename);
 
@@ -40,75 +27,54 @@ aoc::Answer solve(const std::string &filename = "input.txt") {
   const std::string sequence = buffer;
   std::getline(input, buffer);
 
-  typedef std::pair<const std::string, const std::string> raw_node;
-  std::map<const std::string, const raw_node> raw_network;
+  typedef std::pair<const std::string, const std::string> node;
+  std::map<const std::string, const node> network;
 
-  std::map<const std::string, const std::size_t> path_to_idx;
-
-  std::vector<std::string> keys;
-  std::vector<std::size_t> ghosts;
-
-  std::size_t aaa = 0;
-  std::size_t zzz = 0;
+  std::vector<std::string> ghosts;
 
   for (std::string line; std::getline(input, line);) {
     auto from = line.substr(0, 3);
     auto left = line.substr(7, 3);
     auto right = line.substr(12, 3);
 
-    keys.push_back(from);
-    raw_network.insert({ from, std::make_pair(left, right) });
-
-    const auto idx = keys.size() - 1;
-    path_to_idx.insert({ from, idx });
-
-    if (from == "AAA") {
-      aaa = idx;
-    } else if (from == "ZZZ") {
-      zzz = idx;
-    }
+    network.insert({ from, std::make_pair(left, right) });
 
     if (from.at(2) == 'A') {
-      ghosts.push_back(idx);
+      ghosts.push_back(from);
     }
   }
 
-  typedef std::pair<const std::size_t, const std::size_t> node;
-  std::map<const std::string, const node> network;
-
-  for (const auto &[path, values] : raw_network) {
-    network.insert({
-      path,
-      std::make_pair(
-        path_to_idx.find(values.first)->second,
-        path_to_idx.find(values.second)->second
-      ),
-    });
-  }
-
-  raw_network.clear();
-  path_to_idx.clear();
-
   // part 1
-  std::size_t curr = aaa;
+  std::string curr = "AAA";
 
-  while (curr != zzz) {
+  while (curr != "ZZZ") {
     const char route = sequence.at(part1++ % sequence.size());
-    const node options = network.find(keys.at(curr))->second;
+    const node options = network.find(curr)->second;
 
     curr = route == 'L' ? options.first : options.second;
   }
 
   // part 2
-  while (keepSearching(ghosts, keys)) {
-    const char route = sequence.at(part2++ % sequence.size());
+  std::vector<unsigned long long> intervals;
 
-    for (std::size_t idx = 0; idx < ghosts.size(); ++idx) {
-      const auto ghost = ghosts.at(idx);
-      const node options = network.find(keys.at(ghost))->second;
+  for (auto it = ghosts.begin(); it != ghosts.end(); ++it) {
+    auto curr = *it;
+    unsigned long long pos = 0;
 
-      ghosts.at(idx) = route == 'L' ? options.first : options.second;
+    while (curr.at(2) != 'Z') {
+      const char route = sequence.at(pos++ % sequence.size());
+      const node options = network.find(curr)->second;
+
+      curr = route == 'L' ? options.first : options.second;
     }
+
+    intervals.push_back(pos);
+  }
+
+  part2 = intervals.at(0);
+
+  for (std::size_t idx = 1; idx < intervals.size(); ++idx) {
+    part2 = std::lcm(part2, intervals.at(idx));
   }
 
   return aoc::Answer {
