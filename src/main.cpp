@@ -32,23 +32,6 @@ int main(int argc, char *argv[]) {
     event23::day06::solve(input_filename),
     event23::day07::solve(input_filename),
     event23::day08::solve(input_filename),
-    // event23::day09::solve(input_filename),
-    // event23::day10::solve(input_filename),
-    // event23::day11::solve(input_filename),
-    // event23::day12::solve(input_filename),
-    // event23::day13::solve(input_filename),
-    // event23::day14::solve(input_filename),
-    // event23::day15::solve(input_filename),
-    // event23::day16::solve(input_filename),
-    // event23::day17::solve(input_filename),
-    // event23::day18::solve(input_filename),
-    // event23::day19::solve(input_filename),
-    // event23::day20::solve(input_filename),
-    // event23::day21::solve(input_filename),
-    // event23::day22::solve(input_filename),
-    // event23::day23::solve(input_filename),
-    // event23::day24::solve(input_filename),
-    // event23::day25::solve(input_filename),
   };
 
   std::stringstream output;

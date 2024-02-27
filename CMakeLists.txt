@@ -15,9 +15,11 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+if (NOT WIN32)
+  set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+  set(CMAKE_CXX_FLAGS_DEBUG "-g")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+endif()
 
 file(
     COPY
@@ -41,22 +43,5 @@ add_executable(
     src/event23/day06.cpp
     src/event23/day07.cpp
     src/event23/day08.cpp
-    src/event23/day09.cpp
-    src/event23/day10.cpp
-    src/event23/day11.cpp
-    src/event23/day12.cpp
-    src/event23/day13.cpp
-    src/event23/day14.cpp
-    src/event23/day15.cpp
-    src/event23/day16.cpp
-    src/event23/day17.cpp
-    src/event23/day18.cpp
-    src/event23/day19.cpp
-    src/event23/day20.cpp
-    src/event23/day21.cpp
-    src/event23/day22.cpp
-    src/event23/day23.cpp
-    src/event23/day24.cpp
-    src/event23/day25.cpp
     src/util/aoc.h
 )
